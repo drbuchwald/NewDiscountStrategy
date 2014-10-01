@@ -9,12 +9,12 @@ public class NoDiscount implements DiscountStrategy {
 
     @Override
     public double getRate() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException("Not supported at this time.");
     }
 
     @Override
     public void setRate(double rate) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException("Not supported at this time.");
     }
 
 }
