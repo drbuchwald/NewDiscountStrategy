@@ -4,12 +4,13 @@ public class Customer {
 
     private String customerID;
     private String name;
-
+    private final String BAD_ENTRY_MSG = "Error: invalid entry";
+    
+    
     public Customer(String customerID, String name) {
         if (customerID == null || customerID.length() == 0 || name == null || name.length() == 0) {
 
-            System.out.println("Error: invalid entry");
-            return;
+            throw new IllegalArgumentException(BAD_ENTRY_MSG);
         }
         this.customerID = customerID;
         this.name = name;
@@ -32,8 +33,7 @@ public class Customer {
     public final void setCustomerID(String customerID) {
         if (customerID == null || customerID.length() == 0) {
 
-            System.out.println("Error: Invalid customer ID");
-            return;
+            throw new IllegalArgumentException(BAD_ENTRY_MSG);
         }
         this.customerID = customerID;
     }

@@ -2,7 +2,7 @@ package newdiscountstrategy;
 
 public class VariableRateDiscount implements DiscountStrategy {
 
-    private double rate = .10;
+    private double rate;
 
     public VariableRateDiscount() {
     }

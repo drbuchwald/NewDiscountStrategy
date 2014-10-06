@@ -1,12 +1,14 @@
 package newdiscountstrategy;
 
-public class FakeDatabase {
+public class FakeDatabase implements StoreDatabase {
 
+    private final String BAD_ENTRY_MSG = "Error: invalid entry";
+    
     Product[] products = {
-        new Product("A101", "Baseball Cap", 25, new VariableRateDiscount(.10)),
+        new Product("A101", "Baseball Cap", 25, new VariableRateDiscount(.75)),
         new Product("B205", "Men's Dress Shirt", 100, new VariableRateDiscount(.25)),
         new Product("C222", "Men's Socks", 20, new QuantityDiscount(.15, 5)),
-        new Product("D333", "Mens Watch", 55, new NoDiscount())
+        new Product("D333", "Mens Watch", 120, new NoDiscount())
     };
 
     Customer[] customers = {
@@ -22,10 +24,11 @@ public class FakeDatabase {
      * @param prodId a string containing the product ID
      * @return the product object
      */
+    @Override
     public final Product findProduct(final String prodId) {
         if (prodId == null || prodId.length() == 0) {
-            System.out.println("Error: Invalid product ID");
-            return null;
+            throw new IllegalArgumentException(BAD_ENTRY_MSG);
+            
         }
         Product product = null;
         for (Product p : products) { //":" short-handed way to write a for-loop
@@ -44,11 +47,12 @@ public class FakeDatabase {
      * @param custID a string containing the customer ID
      * @return customer object
      */
+    @Override
     public final Customer findCustomer(final String custID) {
         if (custID == null || custID.length() == 0) {
 
-            System.out.println("Error: invalid customer ID");
-            return null;
+            throw new IllegalArgumentException(BAD_ENTRY_MSG);
+            
         }
         Customer customer = null;
         for (Customer c : customers) {

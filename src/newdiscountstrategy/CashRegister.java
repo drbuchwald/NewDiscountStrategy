@@ -3,9 +3,10 @@ package newdiscountstrategy;
 public class CashRegister {
 
     private Receipt receipt;
+   private final String BAD_ENTRY_MSG = "Error: invalid entry";
 
-    public CashRegister() {
-        this.receipt = new Receipt();
+    public CashRegister(StoreDatabase db) {
+        this.receipt = new Receipt(db);
     }
 
     /**
@@ -16,8 +17,7 @@ public class CashRegister {
      */
     public final void addItemToSale(String prodID, int qty) {
         if (prodID == null || prodID.length() == 0 || qty < 0) {
-            System.out.println("Invalid entry");
-            return;
+            throw new IllegalArgumentException(BAD_ENTRY_MSG);
         }
         receipt.addItem(prodID, qty);
 
@@ -30,8 +30,7 @@ public class CashRegister {
      */
     public final void startTransaction(String custID) {
         if (custID == null || custID.length() == 0) {
-            System.out.println("Invalid entry");
-            return;
+            throw new IllegalArgumentException(BAD_ENTRY_MSG);
         }
         receipt.addCustomer(custID);
     }

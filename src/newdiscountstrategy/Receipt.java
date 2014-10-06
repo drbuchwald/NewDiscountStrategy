@@ -10,9 +10,10 @@ public class Receipt {
     private LineItem[] lineItems = new LineItem[0];
     private Customer customer;
     private Date receiptDate;
+    private StoreDatabase db;
 
-    public Receipt() {
-
+    public Receipt(StoreDatabase db) {
+        this.db = db;
         receiptDate = new Date();
         receiptNumber++;
 
@@ -31,19 +32,20 @@ public class Receipt {
         return receiptDate;
     }
 
+   
     public void setDate(Date receiptDate) {
         this.receiptDate = receiptDate;
     }
 
-    public final void addCustomer(String custID) {
-
-        FakeDatabase db = new FakeDatabase();
+   
+    public final void addCustomer(String custID) {;
         customer = db.findCustomer(custID);
     }
 
+    
     public final void addItem(String prodID, int qty) {
 
-        LineItem item = new LineItem(prodID, qty);
+        LineItem item = new LineItem(prodID, qty, db);
         addToArray(item);
     }
 
@@ -55,25 +57,25 @@ public class Receipt {
         lineItems = tempItems;
     }
 
+    
     public final double getTotalBeforeDiscount() {
 
         double total = 0;
 
-        for (int i = 0; i < lineItems.length; i++) {
-
-            total += (lineItems[i].getUnitCost() * lineItems[i].getQty());
+        for (LineItem lineItem : lineItems) {
+            total += (lineItem.getUnitCost() * lineItem.getQty());
         }
 
         return total;
     }
 
+    
     public final double getTotalAfterDiscount() {
 
         double total = 0;
 
-        for (int i = 0; i < lineItems.length; i++) {
-
-            total += lineItems[i].getSubTotal();
+        for (LineItem lineItem : lineItems) {
+            total += lineItem.getSubTotal();
         }
 
         return total;
@@ -83,6 +85,7 @@ public class Receipt {
     /**
      * Generates the receipt Inserts the date and time
      */
+    
     public final void generateReceipt() {
 
         System.out.println("Receipt # " + receiptNumber);
@@ -96,9 +99,8 @@ public class Receipt {
         System.out.println("==================================");
         System.out.println("Prod ID" + "  Description\t" + "Qty\t" + "Unit Price\t" + "Subtotal\t" + "Discount");
 
-        for (int i = 0; i < lineItems.length; i++) {
-
-            System.out.println(lineItems[i].getLineItem());
+        for (LineItem lineItem : lineItems) {
+            System.out.println(lineItem.getLineItem());
         }
 
         System.out.println();

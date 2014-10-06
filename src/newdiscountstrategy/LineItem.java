@@ -1,16 +1,18 @@
 package newdiscountstrategy;
 
+import java.text.DecimalFormat;
+
 public class LineItem {
 
     private Product product;
     private int qty;
+    private final String BAD_ENTRY_MSG = "Error: invalid entry";
 
-    public LineItem(String prodID, int qty) {
+    public LineItem(String prodID, int qty, StoreDatabase db) {
         if (prodID == null || prodID.length() == 0 || qty < 0) {
-            System.out.println("Error: invalid entry");
-            return;
+            throw new IllegalArgumentException(BAD_ENTRY_MSG);
         }
-        FakeDatabase db = new FakeDatabase();
+
         product = db.findProduct(prodID);
         this.qty = qty;
 
@@ -42,7 +44,7 @@ public class LineItem {
     }
 
     public final void setQty(int qty) {
-        //validation needed
+        
         this.qty = qty;
     }
 
@@ -53,7 +55,8 @@ public class LineItem {
         double subTotal = getSubTotal();
         double discount = product.getDiscount(qty);
 
-        return id + " " + name + "\t" + qty + "\t" + "$" + price + "\t\t" + "$" + subTotal + "\t\t" + discount;
+        DecimalFormat moneyFormat = new DecimalFormat("$0.00");
+        return id + " " + name + "\t" + qty + "\t" + moneyFormat.format(price) + "\t\t" + moneyFormat.format(subTotal) + "\t\t" + moneyFormat.format(discount);
 
     }
 

@@ -2,8 +2,8 @@ package newdiscountstrategy;
 
 public class QuantityDiscount implements DiscountStrategy {
 
-    private int minQty = 2;
-    private double rate = .10;
+    private int minQty;
+    private double rate;
 
     public QuantityDiscount() {
     }
